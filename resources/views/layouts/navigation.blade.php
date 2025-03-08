@@ -16,6 +16,59 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                @role('owner')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.index')">
+                        {{ __('Categories') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.donaturs.index')" :active="request()->routeIs('admin.donaturs.index')">
+                        {{ __('Donaturs') }}
+                    </x-nav-link>
+                </div>
+
+                 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.fundraising_withdrawals.index')" :active="request()->routeIs('admin.fundraising_withdrawals.index')">
+                        {{ __('Withdrawals') }}
+                    </x-nav-link>
+                </div>
+
+             @endrole
+                
+             @role('fundraiser|owner')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.fundraisings.index')" :active="request()->routeIs('admin.fundraisings.index')">
+                        {{ __('Fundraisings') }}
+                    </x-nav-link>
+                </div>
+@endrole
+
+                
+               
+
+
+               
+
+                
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.fundraisers.index')" :active="request()->routeIs('admin.fundraisers.index')">
+                        {{ __('Fundraisers') }}
+                    </x-nav-link>
+                </div>
+
+
+                @role('fundraiser')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.my_withdrawals')" :active="request()->routeIs('admin.my_withdrawals')">
+                        {{ __('My Withdrawals') }}
+                    </x-nav-link>
+                </div>
+                @endrole
+                
             </div>
 
             <!-- Settings Dropdown -->
@@ -23,8 +76,14 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
+                            <div class="flex flex-row items-center gap-x-5">
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}" 
+                                     alt="User Avatar"
+                                     style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <span style="color: #4a4a4a; font-weight: 500;">{{ Auth::user()->name }}</span>
+                            </div>
+                            
+                            
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />

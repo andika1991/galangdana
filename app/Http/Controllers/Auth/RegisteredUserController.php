@@ -31,13 +31,21 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'avatar' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:2048'], // Tambahkan batas ukuran
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Simpan avatar jika ada
+        $iconPath = $request->hasFile('avatar') 
+            ? $request->file('avatar')->store('avatars', 'public') 
+            : null; // Pastikan ada nilai default
+
+        // Simpan user ke database
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'avatar' => $iconPath, // Perbaikan: gunakan path yang benar
             'password' => Hash::make($request->password),
         ]);
 
@@ -45,6 +53,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard')); // Perbaikan sintaks
     }
 }
